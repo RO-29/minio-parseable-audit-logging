@@ -1,0 +1,78 @@
+version: '3.8'
+
+services:
+  # Parseable services
+  parseable:
+    image: parseable/parseable:latest
+    container_name: parseable
+    command: parseable s3-store
+    ports:
+      - "8000:8000"
+    environment:
+      P_ADDR: "0.0.0.0:8000"
+      P_USERNAME: "admin"
+      P_PASSWORD: "admin"
+      P_STAGING_DIR: "/staging"
+      P_S3_URL: "http://minio:9000"
+      P_S3_BUCKET: "parseable"
+      P_S3_ACCESS_KEY: "minioadmin"
+      P_S3_SECRET_KEY: "minioadmin"
+      P_S3_REGION: "us-east-1"
+    volumes:
+      - parseable-staging:/staging
+    depends_on:
+      - minio
+    networks:
+      - parseable-net
+
+  # MinIO for object storage
+  minio:
+    image: minio/minio:latest
+    container_name: minio
+    command: server /data --console-address ":9001"
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: "minioadmin"
+      MINIO_ROOT_PASSWORD: "minioadmin"
+      # Configure MinIO to send audit logs to Parseable
+      MINIO_AUDIT_WEBHOOK_ENDPOINT_PARSEABLE: "http://parseable:8000/api/v1/logstream/minio_audit"
+      MINIO_AUDIT_WEBHOOK_AUTH_TOKEN_PARSEABLE: "Basic YWRtaW46YWRtaW4="
+      MINIO_LOGGER_WEBHOOK_ENDPOINT_PARSEABLE: "http://parseable:8000/api/v1/logstream/minio_log"
+      MINIO_LOGGER_WEBHOOK_AUTH_TOKEN_PARSEABLE: "Basic YWRtaW46YWRtaW4="
+    volumes:
+      - minio-data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    networks:
+      - parseable-net
+
+  # MinIO client to create buckets
+  createbuckets:
+    image: minio/mc:latest
+    container_name: minio-mc
+    depends_on:
+      - minio
+    entrypoint: >
+      /bin/sh -c "
+      sleep 10;
+      /usr/bin/mc alias set myminio http://minio:9000 minioadmin minioadmin;
+      /usr/bin/mc mb myminio/parseable;
+      /usr/bin/mc mb myminio/js-test-bucket;
+      /usr/bin/mc anonymous set public myminio/js-test-bucket;
+      exit 0;
+      "
+    networks:
+      - parseable-net
+
+volumes:
+  minio-data:
+  parseable-staging:
+
+networks:
+  parseable-net:
+    driver: bridge

@@ -1,0 +1,9 @@
+downloads/
+logs.sh
+node_modules/
+package-lock.json
+package.json
+restart.sh
+send-sample-logs.js
+status.sh
+success-summary.sh
