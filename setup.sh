@@ -74,7 +74,7 @@ curl -X PUT "http://localhost:8000/api/v1/logstream/minio_audit" \
   -H "Content-Type: application/json" \
   -d '{}'
 
-# Create minio_log stream  
+# Create minio_log stream
 curl -X PUT "http://localhost:8000/api/v1/logstream/minio_log" \
   -H "Authorization: Basic YWRtaW46YWRtaW4=" \
   -H "Content-Type: application/json" \
@@ -82,11 +82,11 @@ curl -X PUT "http://localhost:8000/api/v1/logstream/minio_log" \
 
 echo "✅ Log streams created!"
 
-# Install Node.js dependencies if package.json exists
-if [ -f "package.json" ]; then
-    echo "📦 Installing Node.js dependencies..."
-    npm install
-    echo "✅ Dependencies installed!"
+# Initialize and tidy Go modules if go.mod exists
+if [ -f "go.mod" ]; then
+    echo "📦 Tidying Go modules..."
+    go mod tidy
+    echo "✅ Go modules updated!"
 fi
 
 echo ""
@@ -98,11 +98,10 @@ echo "   • MinIO Console: http://localhost:9001 (minioadmin/minioadmin)"
 echo "   • MinIO API: http://localhost:9000"
 echo ""
 echo "🔧 Next steps:"
-echo "   1. Run the demo: npm start"
+echo "   1. Run the go app to generate sample data and audit activity: go run minio_generate_sample_data.go"
 echo "   2. Open Parseable dashboard to see audit logs"
 echo "   3. Create custom dashboards and alerts"
 echo ""
 echo "📚 Useful commands:"
 echo "   • Stop services: ./stop.sh"
 echo "   • View logs: docker-compose logs -f"
-echo "   • Restart: ./restart.sh"
