@@ -170,18 +170,18 @@ Once setup is complete, you can access:
 
 ```sql
 -- Most common operations
-SELECT api_name, COUNT(*) as operations 
-FROM minio_audit 
-GROUP BY api_name 
+SELECT api_name, COUNT(*) as operations
+FROM minio_audit
+GROUP BY api_name
 ORDER BY operations DESC
 
 -- File upload/download activity
-SELECT 
+SELECT
   DATE(time) as date,
   api_name,
   COUNT(*) as operations,
   SUM("api_inputBytes") as bytes_transferred
-FROM minio_audit 
+FROM minio_audit
 WHERE api_name IN ('PutObject', 'GetObject')
 GROUP BY DATE(time), api_name
 ORDER BY date DESC
@@ -191,22 +191,22 @@ ORDER BY date DESC
 
 ```sql
 -- Error analysis
-SELECT 
+SELECT
   "api_statusCode" as status_code,
   COUNT(*) as error_count,
   api_name
-FROM minio_audit 
+FROM minio_audit
 WHERE "api_statusCode" >= 400
 GROUP BY "api_statusCode", api_name
 ORDER BY error_count DESC
 
 -- Access patterns by IP
-SELECT 
+SELECT
   remotehost,
   COUNT(*) as requests,
   COUNT(DISTINCT api_object) as unique_objects
-FROM minio_audit 
-GROUP BY remotehost 
+FROM minio_audit
+GROUP BY remotehost
 ORDER BY requests DESC
 ```
 
@@ -214,21 +214,21 @@ ORDER BY requests DESC
 
 ```sql
 -- Data transfer analysis
-SELECT 
+SELECT
   api_name,
   COUNT(*) as operations,
   AVG("api_inputBytes") as avg_input_bytes,
   SUM("api_inputBytes") as total_bytes
-FROM minio_audit 
+FROM minio_audit
 WHERE "api_inputBytes" > 0
 GROUP BY api_name
 
 -- Response time analysis (if available)
-SELECT 
+SELECT
   api_name,
   AVG("api_timeToResponse") as avg_response_time,
   MAX("api_timeToResponse") as max_response_time
-FROM minio_audit 
+FROM minio_audit
 WHERE "api_timeToResponse" IS NOT NULL
 GROUP BY api_name
 ```
@@ -327,9 +327,9 @@ docker compose logs -f minio
 
 ```bash
 # Check log count
-curl -H "Authorization: Basic YWRtaW46YWRtaW4=" 
-  "http://localhost:8000/api/v1/query" 
-  -H "Content-Type: application/json" 
+curl -H "Authorization: Basic YWRtaW46YWRtaW4="
+  "http://localhost:8000/api/v1/query"
+  -H "Content-Type: application/json"
   -d '{"query": "SELECT count(*) FROM minio_audit", "startTime": "2025-08-27T00:00:00Z", "endTime": "2025-08-28T23:59:59Z"}'
 
 # Generate test activity
@@ -371,26 +371,26 @@ docker compose logs minio | grep -i webhook
 3. Ensure Parseable log stream exists:
 
 ```bash
-curl -H "Authorization: Basic YWRtaW46YWRtaW4=" 
+curl -H "Authorization: Basic YWRtaW46YWRtaW4="
   "http://localhost:8000/api/v1/logstream"
 ```
 
 4. Manually test webhook endpoint:
 
 ```bash
-curl -X POST "http://localhost:8000/api/v1/logstream/minio_audit" 
-  -H "Authorization: Basic YWRtaW46YWRtaW4=" 
-  -H "Content-Type: application/json" 
+curl -X POST "http://localhost:8000/api/v1/logstream/minio_audit"
+  -H "Authorization: Basic YWRtaW46YWRtaW4="
+  -H "Content-Type: application/json"
   -d '[{"test": "log", "time": "'$(date -u +%Y-%m-%dT%H:%M:%S.%3NZ)'"}]'
 ```
 
-### Demo App Connection Issues
+### Demo App Connections
 
 ```bash
 # Check MinIO is accessible
 curl http://localhost:9000/minio/health/live
 
-# Check Parseable is accessible  
+# Check Parseable is accessible
 curl http://localhost:8000/api/v1/about
 
 # Reinstall dependencies
@@ -434,9 +434,9 @@ Set up alerts for:
 
 ```bash
 # Optimize webhook settings
-mc admin config set minio audit_webhook:parseable 
-  batch_size=100 
-  queue_size=1000000 
+mc admin config set minio audit_webhook:parseable
+  batch_size=100
+  queue_size=1000000
   max_retry=3
 ```
 
@@ -474,23 +474,7 @@ rm -rf downloads/ uploads/
 - [Docker Compose Reference](https://docs.docker.com/compose/)
 - [SQL Query Examples for Log Analysis](https://parseable.io/docs/sql)
 
-## 🤝 Contributing
 
-This is a complete working example. Feel free to:
-
-- Add more sophisticated demo scenarios
-- Create additional dashboard templates
-- Improve error handling and monitoring
-- Add automated testing
-- Extend to other object storage systems
-
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
----
-
-**🎉 Congratulations!** You now have a production-ready audit logging pipeline that provides complete visibility into your MinIO object storage operations with powerful analytics capabilities through Parseable.
 
 ## 📁 File Structure
 
@@ -531,11 +515,3 @@ rm -rf /tmp/parseable /tmp/minio-data
 - [Parseable Documentation](https://parseable.io/docs)
 - [MinIO Documentation](https://docs.min.io/)
 - [Example Dashboard Configurations](https://github.com/parseablehq/parseable/tree/main/examples)
-
-## 🤝 Contributing
-
-Feel free to submit issues and pull requests to improve this setup!
-
-## 📄 License
-
-This project is licensed under the MIT License.
