@@ -37,7 +37,7 @@ A complete observability solution that captures every MinIO operation (uploads, 
 - **MinIO**: S3-compatible object storage with audit webhook configuration
 - **Parseable**: High-performance log analytics with SQL interface
 - **Docker Compose**: Orchestrated multi-service deployment
-- **Demo Application**: Node.js app simulating real-world file operations
+- **Demo Application**: go app simulating real-world file operations
 
 ### Rich Analytics Capabilities
 - **SQL Queries**: Query audit logs with full SQL syntax
@@ -357,8 +357,8 @@ curl http://localhost:9000/minio/health/live
 curl http://localhost:8000/api/v1/about
 
 # Reinstall dependencies
-rm -rf node_modules package-lock.json
-npm install
+rm go.sum
+go mod tidy
 ```
 
 ## Production Deployment
@@ -445,7 +445,7 @@ rm -rf downloads/ uploads/
 parseable/
 ├── docker-compose.yaml                    # Full distributed setup
 ├── parseable-env                          # Environment variables for standalone
-├── minio-generate-sample-data.js          # Sample application
+├── minio_generate_sample_data.go          # Sample application to generate minio audit logs
 ├── setup.sh                               # Full setup script
 ├── stop.sh                                # Full stop script
 └── README.md                              # This file
