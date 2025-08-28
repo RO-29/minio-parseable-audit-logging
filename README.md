@@ -2,11 +2,11 @@
 
 This repository demonstrates a complete, production-ready integration between **MinIO object storage** and **Parseable log analytics platform** for real-time audit logging and monitoring.
 
-## 🎯 What This Is
+## What This Is
 
 A complete observability solution that captures every MinIO operation (uploads, downloads, bucket operations, errors) and streams them in real-time to Parseable for analysis, alerting, and compliance monitoring.
 
-## 🏗️ Architecture Overview
+## Architecture Overview
 
 ```
 ┌─────────────────┐    Real-time    ┌─────────────────┐    S3 Storage   ┌─────────────────┐
@@ -27,10 +27,10 @@ A complete observability solution that captures every MinIO operation (uploads, 
 4. **Persistent Storage**: Logs are stored in S3-compatible storage for long-term retention and analysis
 5. **Rich Analytics**: Use SQL queries, dashboards, and alerts to monitor operations, security, and performance
 
-## Key Features Demonstrated
+## Key Features
 
 ### Real-Time Audit Logging
-- **14 different API operation types** (GetObject, PutObject, ListObjects, etc.)
+- **Different API operation types** (GetObject, PutObject, ListObjects, etc.)
 - **Zero-latency** streaming from MinIO to Parseable via webhooks
 
 ### Production-Ready Components
@@ -72,7 +72,7 @@ Every MinIO operation generates detailed audit logs including:
 - **Error Conditions**: 404s, permission denied, invalid requests
 - **Performance Metrics**: Response times, data transfer sizes
 
-## 🎯 Use Cases
+## Use Cases
 
 ### Security & Compliance
 - **Audit Trail**: Complete record of all data access and modifications
@@ -224,30 +224,9 @@ GROUP BY api_name
 ## Management Commands
 
 ```bash
-# Check system status
-./status.sh
 
-# View real-time logs
-./logs.sh
-
-# Stop/restart services
+# Stop services
 ./stop.sh
-./restart.sh
-```
-
-## Project Structure
-
-```
-parseable/
-├── docker-compose.yaml      # Complete service orchestration
-├── demo-app.js             # Enhanced MinIO operations simulator
-├── send-sample-logs.js     # Additional log generator
-├── package.json            # Node.js dependencies
-├── setup.sh               # Automated setup script
-├── status.sh              # System status checker
-├── success-summary.sh     # Comprehensive status report
-├── stop.sh / restart.sh   # Service management
-└── README.md              # This documentation
 ```
 
 ## Technical Implementation
@@ -322,7 +301,7 @@ npm start
 # Check again for new logs
 ```
 
-## 🛠️ Troubleshooting
+## Troubleshooting
 
 ### Services Won't Start
 
@@ -382,7 +361,7 @@ rm -rf node_modules package-lock.json
 npm install
 ```
 
-## 🚀 Production Deployment
+## Production Deployment
 
 ### Scaling Considerations
 
@@ -412,13 +391,13 @@ Set up alerts for:
 - Unusual access patterns
 - Performance degradation
 
-## 📈 Performance Optimization
+## Performance Optimization
 
 ### MinIO Configuration
 
 ```bash
 # Optimize webhook settings
-mc admin config set minio audit_webhook:parseable
+  mc admin config set minio audit_webhook:parseable
   batch_size=100
   queue_size=1000000
   max_retry=3
@@ -433,7 +412,7 @@ P_CACHE_SIZE=2GB
 P_MAX_CONCURRENT_INGESTS=10
 ```
 
-## 🧹 Cleanup
+## Cleanup
 
 To completely remove everything:
 
@@ -451,7 +430,7 @@ docker rmi parseable/parseable:latest minio/minio:latest minio/mc:latest
 rm -rf downloads/ uploads/
 ```
 
-## 📚 Additional Resources
+## Additional Resources
 
 - [Parseable Documentation](https://parseable.io/docs)
 - [MinIO Audit Webhook Guide](https://docs.min.io/docs/minio-audit-quickstart-guide.html)
@@ -464,16 +443,12 @@ rm -rf downloads/ uploads/
 
 ```
 parseable/
-├── docker-compose.yaml    # Full distributed setup
-├── parseable-env         # Environment variables for standalone
-├── package.json          # Node.js dependencies
-├── demo-app.js          # Sample application
-├── setup.sh             # Full setup script
-├── setup-standalone.sh  # Standalone setup script
-├── stop.sh              # Stop services
-├── restart.sh           # Restart services
-├── logs.sh              # View logs
-└── README.md            # This file
+├── docker-compose.yaml                    # Full distributed setup
+├── parseable-env                          # Environment variables for standalone
+├── minio-generate-sample-data.js          # Sample application
+├── setup.sh                               # Full setup script
+├── stop.sh                                # Full stop script
+└── README.md                              # This file
 ```
 
 ## 🧹 Cleanup
@@ -494,7 +469,7 @@ docker rmi parseable/parseable:latest minio/minio:latest minio/mc:latest
 rm -rf /tmp/parseable /tmp/minio-data
 ```
 
-## 📚 Learn More
+## Learn More
 
 - [Parseable Documentation](https://parseable.io/docs)
 - [MinIO Documentation](https://docs.min.io/)
