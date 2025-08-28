@@ -37,8 +37,12 @@ services:
       MINIO_ROOT_USER: "minioadmin"
       MINIO_ROOT_PASSWORD: "minioadmin"
       # Configure MinIO to send audit logs to Parseable
+      MINIO_NOTIFY_WEBHOOK_ENABLE_PARSEABLE: "on"
+
       MINIO_AUDIT_WEBHOOK_ENDPOINT_PARSEABLE: "http://parseable:8000/api/v1/logstream/minio_audit"
       MINIO_AUDIT_WEBHOOK_AUTH_TOKEN_PARSEABLE: "Basic YWRtaW46YWRtaW4="
+
+      MINIO_LOGGER_WEBHOOK_ENABLE_PARSEABLE: "on"
       MINIO_LOGGER_WEBHOOK_ENDPOINT_PARSEABLE: "http://parseable:8000/api/v1/logstream/minio_log"
       MINIO_LOGGER_WEBHOOK_AUTH_TOKEN_PARSEABLE: "Basic YWRtaW46YWRtaW4="
     volumes:
