@@ -27,26 +27,25 @@ A complete observability solution that captures every MinIO operation (uploads, 
 4. **Persistent Storage**: Logs are stored in S3-compatible storage for long-term retention and analysis
 5. **Rich Analytics**: Use SQL queries, dashboards, and alerts to monitor operations, security, and performance
 
-## 🚀 Key Features Demonstrated
+## Key Features Demonstrated
 
-### ✅ Real-Time Audit Logging
-- **161+ audit logs** captured from actual MinIO operations
+### Real-Time Audit Logging
 - **14 different API operation types** (GetObject, PutObject, ListObjects, etc.)
 - **Zero-latency** streaming from MinIO to Parseable via webhooks
 
-### ✅ Production-Ready Components
+### Production-Ready Components
 - **MinIO**: S3-compatible object storage with audit webhook configuration
 - **Parseable**: High-performance log analytics with SQL interface
 - **Docker Compose**: Orchestrated multi-service deployment
 - **Demo Application**: Node.js app simulating real-world file operations
 
-### ✅ Rich Analytics Capabilities
+### Rich Analytics Capabilities
 - **SQL Queries**: Query audit logs with full SQL syntax
 - **Schema Discovery**: Automatic field extraction and indexing
 - **Time-series Analysis**: Timestamp-based filtering and aggregation
 - **Dashboard Ready**: Pre-built query examples for common use cases
 
-## 📊 What Gets Logged
+## What Gets Logged
 
 Every MinIO operation generates detailed audit logs including:
 
@@ -62,7 +61,7 @@ Every MinIO operation generates detailed audit logs including:
   "time": "2025-08-27T09:45:15.123Z",
   "responseHeader_etag": "\"9a0364b9e99bb480dd25e1f0284c8555\"",
   "requestHeader_authorization": "AWS4-HMAC-SHA256...",
-  // ... and much more
+  // ...
 }
 ```
 
@@ -75,25 +74,25 @@ Every MinIO operation generates detailed audit logs including:
 
 ## 🎯 Use Cases
 
-### 🔒 Security & Compliance
+### Security & Compliance
 - **Audit Trail**: Complete record of all data access and modifications
 - **Anomaly Detection**: Unusual access patterns, failed authentications
 - **Compliance Reporting**: SOX, GDPR, HIPAA audit requirements
 - **Data Governance**: Track data lineage and access patterns
 
-### 📈 Operations & Performance
+### Operations & Performance
 - **Capacity Planning**: Monitor storage growth and usage patterns
 - **Performance Monitoring**: Response times, error rates, throughput
 - **Cost Optimization**: Identify heavy users, optimize storage tiers
 - **SLA Monitoring**: Track availability and performance metrics
 
-### 🚨 Alerting & Monitoring
+### Alerting & Monitoring
 - **Real-time Alerts**: High error rates, unusual access patterns
 - **Threshold Monitoring**: Storage quotas, performance degradation
 - **Security Notifications**: Failed authentications, policy violations
 - **Operational Health**: Service availability, backup status
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Option 1: Full Setup (Recommended)
 
@@ -102,7 +101,7 @@ Get the complete pipeline running in under 2 minutes:
 ```bash
 # Clone and setup
 git clone <this-repo>
-cd parseable
+cd minio-parseable-audit-logging
 
 # Start the entire pipeline
 chmod +x *.sh
@@ -139,18 +138,7 @@ docker compose restart minio
 npm install && npm start
 ```
 
-## 📊 Current Status
-
-**✅ FULLY OPERATIONAL** - Real audit logs flowing from MinIO to Parseable
-
-- **161+ Real Audit Logs** captured and queryable
-- **14 Operation Types** being monitored:
-  - GetObject: 123 operations (file downloads, metadata)
-  - ListObjectsV2: 36 operations (bucket listings)
-  - PutObject: 32 operations (file uploads)
-  - Various management operations (policies, locations, etc.)
-
-## 📊 Access Points
+## Access Points
 
 Once setup is complete, you can access:
 
@@ -164,7 +152,7 @@ Once setup is complete, you can access:
 
 - **MinIO API**: <http://localhost:9000>
 
-## � Sample Queries & Dashboards
+## Sample Queries & Dashboards
 
 ### Operations Dashboard
 
@@ -233,7 +221,7 @@ WHERE "api_timeToResponse" IS NOT NULL
 GROUP BY api_name
 ```
 
-## 🔧 Management Commands
+## Management Commands
 
 ```bash
 # Check system status
@@ -242,16 +230,12 @@ GROUP BY api_name
 # View real-time logs
 ./logs.sh
 
-# Generate more test data
-npm start                    # MinIO operations
-node send-sample-logs.js     # Additional sample logs
-
 # Stop/restart services
 ./stop.sh
 ./restart.sh
 ```
 
-## � Project Structure
+## Project Structure
 
 ```
 parseable/
@@ -266,7 +250,7 @@ parseable/
 └── README.md              # This documentation
 ```
 
-## 🛠️ Technical Implementation
+## Technical Implementation
 
 ### MinIO Audit Webhook Configuration
 
@@ -300,7 +284,7 @@ Parseable automatically discovers and indexes fields:
 - **Timestamp handling**: Both `time` and `p_timestamp` for flexibility
 - **Case-sensitive fields**: Some fields like `"api_statusCode"` require quotes in queries
 
-## 🔍 Monitoring
+## Monitoring
 
 ### Check Service Status
 
